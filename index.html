@@ -2,7 +2,7 @@
 <html>
   <head>
   	<meta charset="utf-8">
-    <title>New NAU Tagger Checking Tool</title>
+    <title>LxGrFixTagTool</title>
     <link href="style.css" rel="stylesheet">
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.6/d3.min.js"></script>
 		<script src="js/FileSaver.js"></script>
@@ -18,7 +18,7 @@
 		}
 
 		function setNewTag() {
-			var new_tag = document.getElementById('field1').value + '+' + document.getElementById('field2').value + '+' + document.getElementById('field3').value + '+' + document.getElementById('field4').value + '+' + document.getElementById('field5').value + '+' + document.getElementById('field6').value + '+' + document.getElementById('field7').value;
+			var new_tag = document.getElementById('field1').value + '\t' + document.getElementById('field2').value + '\t' + document.getElementById('field3').value + '\t' + document.getElementById('field4').value + '\t' + document.getElementById('field5').value + '\t' + document.getElementById('field6').value + '\t' + document.getElementById('field7').value;
 			document.getElementById(current_token).setAttribute('new_biber', new_tag);
       get_precision()
 		}
@@ -131,17 +131,22 @@
 
     }
 
-		function readText(filePath) {
+	function ConvertToRegex(text){
+	    text = text.replace(/\+/g, "\\+").replace(/_/g, "\\_");
+		return new RegExp(text, "")
+	}
 
-				reader = new FileReader();
-				file_name = filePath.files[0].name;
-				var output = ""; //placeholder for text output
-				//filter for target tags, change this regular expression to change filter
-        var regex_string = document.getElementById('regex').value;
-        selected_tags = regex_string;
-        let tag_regex = new RegExp(regex_string);
-				var filter = tag_regex;
-				token_nbr = 0;
+	function readText(filePath) {
+		//read in file
+		reader = new FileReader();
+		file_name = filePath.files[0].name;
+		var output = "";
+		//filter for target tags, with option to use multiple tags separated by newline
+        const rawInput = document.getElementById('fixtags').value;
+		const tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
+		const newList = tagList.map(tag => tag.ConvertToRegex());
+        var filter = newList
+		token_nbr = 0;
 				if(filePath.files && filePath.files[0]) {
             		reader.onload = function (e) {
                 		output = e.target.result;
@@ -149,11 +154,17 @@
                 		var lines = output.split(/\n+/);
                 		// for every line in the text
                 		for (i = 0; i < lines.length; i++) {
-                			var elements = lines[i].split(/\s/);
+                			var elements = lines[i].split(/\t/);
                 			if (elements.length > 1) {
-                				var biber_tag = elements[1].substr(0);
-                				if (lines[i].match(filter)) {
+								if (elements[3].includes('+')) {
+									var complexity_tag = elements[3];
+									var fg_tags = elements.slice(4);
+								} else {
+									var fg_tags = elements.slice(3);
+								}
+                				if (filter.includes(elements)) {
                 					filtered_tokens.push(token_nbr);
+									//BOOKMARK
 									if (elements[0] == '<p>') {
 										text = text + '</p>';
 										text = text + '<p><a href="#" id="' + token_nbr + '" biber="' + biber_tag + '" new_biber="' + biber_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;p&gt;</a></p>';
@@ -190,8 +201,8 @@
         }
 
         function exportData() {
+		//downloads content - NEEDS WORK
 		        var content = "Token\tOriginal_Biber_Tag\tNew_Biber_Tag\ttarget_feature\tmodified?\tComments\r\n";
-
 
 				for (var i = 0, length = total_token_count; i < length; i++) {
 
@@ -223,7 +234,7 @@
 	<div id="top_bar" class="top_bar">
 		<table width="100%">
 			<tr>
-			<td><img src="images/crow_logo.png" width="50"></td>
+			<td><img src="images/wugs.png" width="50"></td>
 			<td>
 				<table>
 					<tr>
@@ -237,7 +248,7 @@
 				</table>
 			</td>
 
-			<td><h2> New NAUTagger: Tag Checking (Precision) </h2></td>
+			<td><h2> LxGrFixTagTool: Tag Checking (Precision) </h2></td>
 			<td><div id="cit_info">
 
       </div></td>
@@ -250,7 +261,7 @@
 
 	<div id="text_window" class="text_window"></div>
 	<div id="info_box" class="info_box">
-    Regular Expression for tags: <input type="text" id="regex" size="50" value="PMOD\+">
+    Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="50" cols="1">PMOD\+</textarea>
 
   </div>
 
