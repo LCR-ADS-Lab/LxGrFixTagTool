@@ -168,7 +168,7 @@
 									complexity_tag = elements[3];
 									fg_tags = elements.slice(4);
 								} else {
-									var complexity_tag = "";
+									complexity_tag = "";
 									fg_tags = elements.slice(3);
 								}
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
