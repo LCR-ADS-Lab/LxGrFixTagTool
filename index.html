@@ -19,19 +19,19 @@
 
 		function setNewTag() {
 			var new_tag = document.getElementById('field1').value + '\t' + document.getElementById('field2').value + '\t' + document.getElementById('field3').value + '\t' + document.getElementById('field4').value + '\t' + document.getElementById('field5').value + '\t' + document.getElementById('field6').value + '\t' + document.getElementById('field7').value;
-			document.getElementById(current_token).setAttribute('new_kyle', new_tag);
+			document.getElementById(current_token).setAttribute('new_complexity', new_tag);
       		get_precision()
 		}
 
 		function getNewTags(e){
-			new_kyle_tags = e.getAttribute('new_kyle').split('+');
-			document.getElementById('field1').value = new_kyle_tags[0];
-			document.getElementById('field2').value = new_kyle_tags[1];
-			document.getElementById('field3').value = new_kyle_tags[2];
-			document.getElementById('field4').value = new_kyle_tags[3];
-			document.getElementById('field5').value = new_kyle_tags[4];
-			document.getElementById('field6').value = new_kyle_tags[5];
-			document.getElementById('field7').value = new_kyle_tags[6];
+			new_complexity_tags = e.getAttribute('new_kyle').split('+');
+			document.getElementById('field1').value = new_complexity_tags[0];
+			document.getElementById('field2').value = new_complexity_tags[1];
+			document.getElementById('field3').value = new_complexity_tags[2];
+			document.getElementById('field4').value = new_complexity_tags[3];
+			document.getElementById('field5').value = new_complexity_tags[4];
+			document.getElementById('field6').value = new_complexity_tags[5];
+			document.getElementById('field7').value = new_complexity_tags[6];
 		}
 
 		function previous() {
@@ -66,15 +66,18 @@
 			this_text = '';
 			this_text += ' Tags for the token <b>' + token + '</b> ';
 			this_text += '<br>';
-			var kyle_tags = e.getAttribute("kyle").split("+");
+			var complexity_tag = e.getAttribute("complexity")
+			var finegrain_tags = e.getAttribute("finegrain")
 			this_text += '<table>';
-			this_text += '<tr><td><form>Tag Field 1: </td><td>' + kyle_tags[0] + '</td><td><input type="text" id="field1" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 2: </td><td>' + kyle_tags[1] + '</td><td><input type="text" id="field2" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 3: </td><td>' + kyle_tags[2] + '</td><td><input type="text" id="field3" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 4: </td><td>' + kyle_tags[3] + '</td><td><input type="text" id="field4" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 5: </td><td>' + kyle_tags[4] + '</td><td><input type="text" id="field5" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 6: </td><td>' + kyle_tags[5] + '</td><td><input type="text" id="field6" onchange="setNewTag();"></td></tr>'
-			this_text += '<tr><td>Tag Field 7: </td><td>' + kyle_tags[6] + '</td><td><input type="text" id="field7" onchange="setNewTag();"></td></tr>'
+			this_text += '<tr><td><form>Complexity: </td><td>' + complexity_tag + '</td><td><input type="text" id="field1" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 1: </td><td>' + finegrain_tags[0] + '</td><td><input type="text" id="field2" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 2: </td><td>' + finegrain_tags[1] + '</td><td><input type="text" id="field3" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 3: </td><td>' + finegrain_tags[2] + '</td><td><input type="text" id="field4" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 4: </td><td>' + finegrain_tags[3] + '</td><td><input type="text" id="field5" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 5: </td><td>' + finegrain_tags[4] + '</td><td><input type="text" id="field6" onchange="setNewTag();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 6: </td><td>' + finegrain_tags[5] + '</td><td><input type="text" id="field7" onchange="setNewTag();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 7: </td><td>' + finegrain_tags[6] + '</td><td><input type="text" id="field8" onchange="setNewTag();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 8: </td><td>' + finegrain_tags[7] + '</td><td><input type="text" id="field9" onchange="setNewTag();"></td></tr>'
 			this_text += '</table>';
 			this_text += '<hr>Comments:<br><textarea rows="4" cols="30" name="comments" onchange="includeComments(this);">' + e.getAttribute("data-comments")  + '</textarea>';
 			document.getElementById('info_box').innerHTML = this_text;
@@ -147,7 +150,6 @@
 		const newList = tagList.map(ConvertToRegex);
         var filter = newList
 		let filtered_tokens = [];
-		let kyle_tag = "";
 				if(filePath.files && filePath.files[0]) {
             		reader.onload = function (e) {
                 		output = e.target.result;
@@ -172,9 +174,9 @@
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
-									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
-								} else {
-									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" title="' + kyle_tag + '" new_kyle="" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
+									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags + '" new_finegrain="' + fg_tags + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);">' + tokenText + "</a> ";
+								} else { 
+									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags + '" new_finegrain="' + fg_tags + '" target_tag="1" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
 								}
 							}
 
@@ -205,8 +207,8 @@
 					if (token != null) {
 						clean_token = token.innerHTML.replace(/&lt;/g,'<');
 						clean_token = clean_token.replace(/&gt;/g,'>');
-						var old_tag = token.getAttribute('kyle');
-						var new_tag =  token.getAttribute('new_kyle');
+						var old_tag = token.getAttribute('complexity');
+						var new_tag =  token.getAttribute('new_complexity');
 						var modified = 1;
 						if (old_tag == new_tag || new_tag == '') {modified = 0;};
 						content +=  clean_token + "\t" + old_tag + "\t" + new_tag + "\t" + token.getAttribute("target_tag") + "\t" + modified + "\t" + token.getAttribute("data-comments").replace(/\n/g,' ') + "\r\n";
