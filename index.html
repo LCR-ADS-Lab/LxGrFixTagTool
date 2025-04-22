@@ -147,13 +147,15 @@
 		const newList = tagList.map(tag => tag.ConvertToRegex());
         var filter = newList
 		token_nbr = 0;
+		let filtered_tokens = [];
+		let kyle_tag = "";
 				if(filePath.files && filePath.files[0]) {
             		reader.onload = function (e) {
                 		output = e.target.result;
                 		var text = '<p>';
                 		var lines = output.split(/\n+/);
                 		// for every line in the text
-                		for (i = 0; i < lines.length; i++) {
+                		for (let i = 0; i < lines.length; i++) {
                 			var elements = lines[i].split(/\t/);
                 			if (elements.length > 1) {
 								if (elements[3].includes('+')) {
@@ -162,7 +164,8 @@
 								} else {
 									var fg_tags = elements.slice(3);
 								}
-                				if (filter.includes(elements)) {
+                				const match = fg_tags.some(tag => filter.some(re => re.test(tag)));
+								if (match) {
                 					filtered_tokens.push(token_nbr);
 									if (elements[0] == '<p>') {
 										text = text + '</p>';
@@ -259,7 +262,9 @@
 
 	<div id="text_window" class="text_window"></div>
 	<div id="info_box" class="info_box">
-    Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="4" cols="50">PMOD\+</textarea>
+    Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="4" cols="50">in+advl
+		pl
+	</textarea>
 
   </div>
 
