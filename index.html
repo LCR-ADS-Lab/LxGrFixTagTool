@@ -158,9 +158,8 @@
                 		var lines = output.split(/\n+/);
                 		// for every line in the text
                 		for (let i = 0; i < lines.length; i++) {
-                			var elements = lines[i].split(/\t/);
+                			var elements = lines[i].split(/\t/).filter(e => e.trim().length > 0);
 							token_nbr = elements[0]
-							if (elements[0].startsWith('#')) continue;
 							let complexity_tag = "";
 							let fg_tags = [];
                 			if (elements.length > 1) {
@@ -168,7 +167,6 @@
 									complexity_tag = elements[3];
 									fg_tags = elements.slice(4);
 								} else {
-									complexity_tag = "";
 									fg_tags = elements.slice(3);
 								}
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
