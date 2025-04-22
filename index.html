@@ -144,7 +144,7 @@
 		//filter for target tags, with option to use multiple tags separated by newline
         const rawInput = document.getElementById('fixtags').value;
 		const tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
-		const newList = tagList.map(tag => tag.ConvertToRegex());
+		const newList = tagList.map(ConvertToRegex);
         var filter = newList
 		token_nbr = 0;
 		let filtered_tokens = [];
