@@ -170,19 +170,11 @@
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
 								const matchFineGrain = fg_tags.some(tag => filter.some(re => re.test(tag)));
 								const match = matchComplexity || matchFineGrain;								
+								let tokenText = elements[1];
 								if (match) {
-                					filtered_tokens.push(token_nbr);
-									if (elements[0] == '<p>') {
-										text = text + '</p>';
-										text = text + '<p><a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;p&gt;</a></p>';
-										text = text + '<p>';
-									} else if (elements[0] == '<h>') {
-										text = text + '<p><a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;h&gt;</a></p>';
-									} else {
-										text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + elements[0] + "</a> ";
-									}
+									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 								} else {
-									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" title="' + kyle_tag + '" new_kyle="" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + elements[0] + "</a> ";
+									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" title="' + kyle_tag + '" new_kyle="" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
 								}
 							}
 
