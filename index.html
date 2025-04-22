@@ -25,14 +25,16 @@
 
 		function getNewTags(e){
 			new_complexity_ = e.getAttribute('new_complexity');
+			new_finegrain_tags = e.getAttribute("new_finegrain").split(',')
 			document.getElementById('field1').value = new_complexity_tags;
-			//fix
-			document.getElementById('field2').value = new_complexity_tags[1];
-			document.getElementById('field3').value = new_complexity_tags[2];
-			document.getElementById('field4').value = new_complexity_tags[3];
-			document.getElementById('field5').value = new_complexity_tags[4];
-			document.getElementById('field6').value = new_complexity_tags[5];
-			document.getElementById('field7').value = new_complexity_tags[6];
+			document.getElementById('field2').value = new_finegrain_tags[0];
+			document.getElementById('field3').value = new_finegrain_tags[1];
+			document.getElementById('field4').value = new_finegrain_tags[2];
+			document.getElementById('field5').value = new_finegrain_tags[3];
+			document.getElementById('field6').value = new_finegrain_tags[4];
+			document.getElementById('field7').value = new_finegrain_tags[5];
+			document.getElementById('field7').value = new_finegrain_tags[6];
+			document.getElementById('field7').value = new_finegrain_tags[7];
 		}
 
 		function previous() {
@@ -169,8 +171,14 @@
 								} else {
 									fg_tags = elements.slice(3);
 								}
+
+								const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
+								fg_tags = fg_tags.splice(uppercaseTagIndex)
+
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-								const matchFineGrain = fg_tags.some(tag => filter.some(re => re.test(tag)));
+								const matchFineGrain = fg_tags.some(tag => 
+    								filter.some(re => new RegExp(`\\b${re.source}\\b`).test(tag))
+								);								
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
