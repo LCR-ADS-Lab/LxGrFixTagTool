@@ -19,19 +19,19 @@
 
 		function setNewTag() {
 			var new_tag = document.getElementById('field1').value + '\t' + document.getElementById('field2').value + '\t' + document.getElementById('field3').value + '\t' + document.getElementById('field4').value + '\t' + document.getElementById('field5').value + '\t' + document.getElementById('field6').value + '\t' + document.getElementById('field7').value;
-			document.getElementById(current_token).setAttribute('new_biber', new_tag);
-      get_precision()
+			document.getElementById(current_token).setAttribute('new_kyle', new_tag);
+      		get_precision()
 		}
 
 		function getNewTags(e){
-			new_biber_tags = e.getAttribute('new_biber').split('+');
-			document.getElementById('field1').value = new_biber_tags[0];
-			document.getElementById('field2').value = new_biber_tags[1];
-			document.getElementById('field3').value = new_biber_tags[2];
-			document.getElementById('field4').value = new_biber_tags[3];
-			document.getElementById('field5').value = new_biber_tags[4];
-			document.getElementById('field6').value = new_biber_tags[5];
-			document.getElementById('field7').value = new_biber_tags[6];
+			new_kyle_tags = e.getAttribute('new_kyle').split('+');
+			document.getElementById('field1').value = new_kyle_tags[0];
+			document.getElementById('field2').value = new_kyle_tags[1];
+			document.getElementById('field3').value = new_kyle_tags[2];
+			document.getElementById('field4').value = new_kyle_tags[3];
+			document.getElementById('field5').value = new_kyle_tags[4];
+			document.getElementById('field6').value = new_kyle_tags[5];
+			document.getElementById('field7').value = new_kyle_tags[6];
 		}
 
 		function previous() {
@@ -66,15 +66,15 @@
 			this_text = '';
 			this_text += ' Tags for the token <b>' + token + '</b> ';
 			this_text += '<br>';
-			var biber_tags = e.getAttribute("biber").split("+");
+			var kyle_tags = e.getAttribute("kyle").split("+");
 			this_text += '<table>';
-			this_text += '<tr><td><form>Tag Field 1: </td><td>' + biber_tags[0] + '</td><td><input type="text" id="field1" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 2: </td><td>' + biber_tags[1] + '</td><td><input type="text" id="field2" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 3: </td><td>' + biber_tags[2] + '</td><td><input type="text" id="field3" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 4: </td><td>' + biber_tags[3] + '</td><td><input type="text" id="field4" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 5: </td><td>' + biber_tags[4] + '</td><td><input type="text" id="field5" onchange="setNewTag();"></td></tr>';
-			this_text += '<tr><td>Tag Field 6: </td><td>' + biber_tags[5] + '</td><td><input type="text" id="field6" onchange="setNewTag();"></td></tr>'
-			this_text += '<tr><td>Tag Field 7: </td><td>' + biber_tags[6] + '</td><td><input type="text" id="field7" onchange="setNewTag();"></td></tr>'
+			this_text += '<tr><td><form>Tag Field 1: </td><td>' + kyle_tags[0] + '</td><td><input type="text" id="field1" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Tag Field 2: </td><td>' + kyle_tags[1] + '</td><td><input type="text" id="field2" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Tag Field 3: </td><td>' + kyle_tags[2] + '</td><td><input type="text" id="field3" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Tag Field 4: </td><td>' + kyle_tags[3] + '</td><td><input type="text" id="field4" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Tag Field 5: </td><td>' + kyle_tags[4] + '</td><td><input type="text" id="field5" onchange="setNewTag();"></td></tr>';
+			this_text += '<tr><td>Tag Field 6: </td><td>' + kyle_tags[5] + '</td><td><input type="text" id="field6" onchange="setNewTag();"></td></tr>'
+			this_text += '<tr><td>Tag Field 7: </td><td>' + kyle_tags[6] + '</td><td><input type="text" id="field7" onchange="setNewTag();"></td></tr>'
 			this_text += '</table>';
 			this_text += '<hr>Comments:<br><textarea rows="4" cols="30" name="comments" onchange="includeComments(this);">' + e.getAttribute("data-comments")  + '</textarea>';
 			document.getElementById('info_box').innerHTML = this_text;
@@ -100,15 +100,15 @@
 
       var tags = selected_tags.split("|")
 
-      var this_tag_regex = new RegExp(tags[0]);
+      var this_tag_regex = new ConvertToRegex([0]);
 
       for (var i = 0, length = total_token_count; i < length; i++) {
 
         var token = document.getElementById(i);
 
         if (token != null) {
-          var old_tag = token.getAttribute('biber');
-          var new_tag =  token.getAttribute('new_biber');
+          var old_tag = token.getAttribute('kyle');
+          var new_tag =  token.getAttribute('new_kyle');
 
           if (new_tag != ''){
             if (old_tag == new_tag) {
@@ -164,21 +164,20 @@
 								}
                 				if (filter.includes(elements)) {
                 					filtered_tokens.push(token_nbr);
-									//BOOKMARK
 									if (elements[0] == '<p>') {
 										text = text + '</p>';
-										text = text + '<p><a href="#" id="' + token_nbr + '" biber="' + biber_tag + '" new_biber="' + biber_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;p&gt;</a></p>';
+										text = text + '<p><a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;p&gt;</a></p>';
 										token_nbr += 1;
 										text = text + '<p>';
 									} else if (elements[0] == '<h>') {
-										text = text + '<p><a href="#" id="' + token_nbr + '" biber="' + biber_tag + '" new_biber="' + biber_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;h&gt;</a></p>';
+										text = text + '<p><a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;h&gt;</a></p>';
 										token_nbr += 1;
 									} else {
-										text = text + '<a href="#" id="' + token_nbr + '" biber="' + biber_tag + '" new_biber="' + biber_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + elements[0] + "</a> ";
+										text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + elements[0] + "</a> ";
 										token_nbr += 1;
 									}
 								} else {
-									text = text + '<a href="#" id="' + token_nbr + '" biber="' + biber_tag + '" title="' + biber_tag + '" new_biber="" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + elements[0] + "</a> ";
+									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" title="' + kyle_tag + '" new_kyle="" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + elements[0] + "</a> ";
 									token_nbr += 1;
 								}
 							}
@@ -201,8 +200,7 @@
         }
 
         function exportData() {
-		//downloads content - NEEDS WORK
-		        var content = "Token\tOriginal_Biber_Tag\tNew_Biber_Tag\ttarget_feature\tmodified?\tComments\r\n";
+		        var content = "Token\tOriginal_Kyle_Tag\tNew_Kyle_Tag\ttarget_feature\tmodified?\tComments\r\n";
 
 				for (var i = 0, length = total_token_count; i < length; i++) {
 
@@ -211,8 +209,8 @@
 					if (token != null) {
 						clean_token = token.innerHTML.replace(/&lt;/g,'<');
 						clean_token = clean_token.replace(/&gt;/g,'>');
-						var old_tag = token.getAttribute('biber');
-						var new_tag =  token.getAttribute('new_biber');
+						var old_tag = token.getAttribute('kyle');
+						var new_tag =  token.getAttribute('new_kyle');
 						var modified = 1;
 						if (old_tag == new_tag || new_tag == '') {modified = 0;};
 						content +=  clean_token + "\t" + old_tag + "\t" + new_tag + "\t" + token.getAttribute("target_tag") + "\t" + modified + "\t" + token.getAttribute("data-comments").replace(/\n/g,' ') + "\r\n";
