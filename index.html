@@ -146,7 +146,6 @@
 		const tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
 		const newList = tagList.map(ConvertToRegex);
         var filter = newList
-		token_nbr = 0;
 		let filtered_tokens = [];
 		let kyle_tag = "";
 				if(filePath.files && filePath.files[0]) {
@@ -157,31 +156,33 @@
                 		// for every line in the text
                 		for (let i = 0; i < lines.length; i++) {
                 			var elements = lines[i].split(/\t/);
+							token_nbr = elements[0]
+							if (elements[0].startsWith('#')) continue;
+							let complexity_tag = "";
+							let fg_tags = [];
                 			if (elements.length > 1) {
-								if (elements[3].includes('+')) {
-									var complexity_tag = elements[3];
-									var fg_tags = elements.slice(4);
+								if (elements[3] && elements[3].includes('+')) {
+									complexity_tag = elements[3];
+									fg_tags = elements.slice(4);
 								} else {
-									var fg_tags = elements.slice(3);
+									fg_tags = elements.slice(3);
 								}
-                				const match = fg_tags.some(tag => filter.some(re => re.test(tag)));
+								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
+								const matchFineGrain = fg_tags.some(tag => filter.some(re => re.test(tag)));
+								const match = matchComplexity || matchFineGrain;								
 								if (match) {
                 					filtered_tokens.push(token_nbr);
 									if (elements[0] == '<p>') {
 										text = text + '</p>';
 										text = text + '<p><a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;p&gt;</a></p>';
-										token_nbr += 1;
 										text = text + '<p>';
 									} else if (elements[0] == '<h>') {
 										text = text + '<p><a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">&lt;h&gt;</a></p>';
-										token_nbr += 1;
 									} else {
 										text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" new_kyle="' + kyle_tag + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + elements[0] + "</a> ";
-										token_nbr += 1;
 									}
 								} else {
 									text = text + '<a href="#" id="' + token_nbr + '" kyle="' + kyle_tag + '" title="' + kyle_tag + '" new_kyle="" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + elements[0] + "</a> ";
-									token_nbr += 1;
 								}
 							}
 
@@ -263,7 +264,7 @@
 	<div id="text_window" class="text_window"></div>
 	<div id="info_box" class="info_box">
     Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="4" cols="50">in+advl
-		pl
+pl
 	</textarea>
 
   </div>
