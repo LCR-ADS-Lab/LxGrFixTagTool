@@ -24,6 +24,7 @@
 		}
 
 		function getNewTags(e){
+			//fix
 			new_complexity_ = e.getAttribute('new_complexity');
 			new_finegrain_tags = e.getAttribute("new_finegrain").split(',')
 			document.getElementById('field1').value = new_complexity_tags;
@@ -171,7 +172,7 @@
 								} else {
 									fg_tags = elements.slice(3);
 								}
-
+								//finegrain search and display not correct
 								const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
 								fg_tags = fg_tags.splice(uppercaseTagIndex)
 
