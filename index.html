@@ -38,64 +38,28 @@
 		}
 
 		function previous() {
-    console.log('Previous clicked!');
-    if (current_token === null) {
-        console.log('No current token selected.');
-        return;
-    }
-	current_token = filtered_tokens[0];
-    if (document.getElementById(current_token)) {
-        document.getElementById(current_token).className = 'conc_highlight';
-    }
+			document.getElementById(current_token).className = 'conc_highlight';
+			which_token = filtered_tokens.indexOf(Number(current_token));
+			which_token -= 1;
+			if (which_token < 0) {
+				which_token = 0;
+			}
+			current_token = filtered_tokens[which_token];
+			document.getElementById('info_box').innerHTML += current_token;
+			openTag(document.getElementById(current_token));
 
-    let which_token = filtered_tokens.indexOf(Number(current_token));
-    console.log('Current token index:', which_token);
+		}
 
-    if (which_token <= 0) {
-        console.log('Already at first token.');
-        return;
-    }
-
-    which_token -= 1;
-    current_token = filtered_tokens[which_token];
-    console.log('New current token:', current_token);
-
-    openTag(document.getElementById(current_token));
-}
-
-function next() {
-	    current_token = filtered_tokens[0];
-
-    console.log('Next clicked!');
-    if (current_token === null) {
-        console.log('No current token selected.');
-        return;
-    }
-	current_token = filtered_tokens[0];
-    if (document.getElementById(current_token)) {
-        document.getElementById(current_token).className = 'conc_highlight';
-    }
-
-    let which_token = filtered_tokens.indexOf(Number(current_token));
-    console.log('Current token index:', which_token);
-
-    if (which_token === -1) {
-        console.log('Current token not in filtered_tokens.');
-        return;
-    }
-
-    if (which_token >= filtered_tokens.length - 1) {
-        console.log('Already at last token.');
-        return;
-    }
-
-    which_token += 1;
-    current_token = filtered_tokens[which_token];
-    console.log('New current token:', current_token);
-
-    openTag(document.getElementById(current_token));
-}
-
+		function next() {
+			document.getElementById(current_token).className = 'conc_highlight';
+			which_token = filtered_tokens.indexOf(Number(current_token));
+			which_token += 1;
+			if (which_token >= filtered_tokens.length) {
+				which_token = filtered_tokens.length - 1;
+			}
+			current_token = filtered_tokens[which_token];
+			openTag(document.getElementById(current_token));
+		}
 
 		function openTag(e) {
 			document.getElementById(current_token).className = 'conc_highlight';	
