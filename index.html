@@ -100,6 +100,7 @@
 		}
 
     function get_precision(){
+		//fix
       var false_positives = 0;
       var true_positives = 0;
       var false_negatives = 0;
@@ -190,6 +191,7 @@
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
+									filtered_tokens.push(token_nbr);
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 								} else { 
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
@@ -214,6 +216,7 @@
         }
 
         function exportData() {
+			//fix
 		        var content = "Token\tOriginal_Kyle_Tag\tNew_Kyle_Tag\ttarget_feature\tmodified?\tComments\r\n";
 
 				for (var i = 0, length = total_token_count; i < length; i++) {
