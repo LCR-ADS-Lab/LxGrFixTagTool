@@ -38,27 +38,62 @@
 		}
 
 		function previous() {
-			document.getElementById(current_token).className = 'conc_highlight';	
-			which_token = filtered_tokens.indexOf(Number(current_token));
-			which_token -= 1;
-			if (which_token < 0) {
-				which_token = 0;
-			}
-			current_token = filtered_tokens[which_token];
-			document.getElementById('info_box').innerHTML += current_token;
-			openTag(document.getElementById(current_token));
-		}
+    console.log('Previous clicked!');
+    if (current_token === null) {
+        console.log('No current token selected.');
+        return;
+    }
 
-		function next() {
-			document.getElementById(current_token).className = 'conc_highlight';
-			which_token = filtered_tokens.indexOf(Number(current_token));
-			which_token += 1;
-			if (which_token >= filtered_tokens.length) {
-				which_token = filtered_tokens.length - 1;
-			}
-			current_token = filtered_tokens[which_token];
-			openTag(document.getElementById(current_token));
-		}
+    if (document.getElementById(current_token)) {
+        document.getElementById(current_token).className = 'conc_highlight';
+    }
+
+    let which_token = filtered_tokens.indexOf(Number(current_token));
+    console.log('Current token index:', which_token);
+
+    if (which_token <= 0) {
+        console.log('Already at first token.');
+        return;
+    }
+
+    which_token -= 1;
+    current_token = filtered_tokens[which_token];
+    console.log('New current token:', current_token);
+
+    openTag(document.getElementById(current_token));
+}
+
+function next() {
+    console.log('Next clicked!');
+    if (current_token === null) {
+        console.log('No current token selected.');
+        return;
+    }
+
+    if (document.getElementById(current_token)) {
+        document.getElementById(current_token).className = 'conc_highlight';
+    }
+
+    let which_token = filtered_tokens.indexOf(Number(current_token));
+    console.log('Current token index:', which_token);
+
+    if (which_token === -1) {
+        console.log('Current token not in filtered_tokens.');
+        return;
+    }
+
+    if (which_token >= filtered_tokens.length - 1) {
+        console.log('Already at last token.');
+        return;
+    }
+
+    which_token += 1;
+    current_token = filtered_tokens[which_token];
+    console.log('New current token:', current_token);
+
+    openTag(document.getElementById(current_token));
+}
+
 
 		function openTag(e) {
 			document.getElementById(current_token).className = 'conc_highlight';	
@@ -176,10 +211,8 @@
 								if (uppercaseTagIndex !== -1) {
 									fg_tags.splice(uppercaseTagIndex);
 								}
-								for (let i = 0; i < fg_tags.length; i++) {
-									if (fg_tags[i] === "undefined") {
-										fg_tags[i] = "";
-									}
+								while (length(fg_tags) < 8){
+									fg_tags.push("");
 								}
 								//var comp_filter = filter.filter(re => re.includes('+'))
 								//var fg_filter = filter.filter(re => !re.includes('+'))
