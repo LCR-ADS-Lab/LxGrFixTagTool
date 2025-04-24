@@ -164,6 +164,7 @@
 		const newList = tagList.map(ConvertToRegex);
         var filter = newList
 		let filtered_tokens = [];
+		token_nbr = 0;
 				if(filePath.files && filePath.files[0]) {
             		reader.onload = function (e) {
                 		output = e.target.result;
@@ -172,7 +173,6 @@
                 		// for every line in the text
                 		for (let i = 0; i < lines.length; i++) {
                 			var elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
-							token_nbr = elements[0]
 							let complexity_tag = "";
 							let fg_tags = [];
                 			if (elements.length > 1) {
@@ -203,8 +203,10 @@
 								if (match) {
 									filtered_tokens.push(token_nbr);
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
+									token_nbr += 1;
 								} else { 
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
+									token_nbr += 1;
 								}
 							}
 
