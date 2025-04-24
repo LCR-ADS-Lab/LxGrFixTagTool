@@ -8,10 +8,10 @@
 		<script src="js/FileSaver.js"></script>
 		<script type="text/javascript">
 
-		var current_token = 0;
-		var total_token_count = 0;
+		let current_token = null;
+		var total_token_count = null;
 		var filtered_tokens = [];
-    var selected_tags = '';
+    	var selected_tags = '';
 
 		function includeComments(e) {
 			document.getElementById(current_token).setAttribute("data-comments", e.value);
@@ -24,7 +24,7 @@
 		}
 
 		function getNewTags(e){
-			new_complexity_ = e.getAttribute('new_complexity');
+			new_complexity_tags = e.getAttribute('new_complexity');
 			new_finegrain_tags = e.getAttribute("new_finegrain").split(',')
 			document.getElementById('field1').value = new_complexity_tags;
 			document.getElementById('field2').value = new_finegrain_tags[0];
@@ -38,7 +38,9 @@
 		}
 
 		function previous() {
-			document.getElementById(current_token).className = 'conc_highlight';
+			if (current_token !== null && document.getElementById(current_token)) {
+				document.getElementById(current_token).className = 'conc_highlight';
+			}			
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token -= 1;
 			if (which_token < 0) {
@@ -46,23 +48,31 @@
 			}
 			current_token = filtered_tokens[which_token];
 			document.getElementById('info_box').innerHTML += current_token;
-			openTag(document.getElementById(current_token));
+			if (document.getElementById(current_token)) {
+				openTag(document.getElementById(current_token));
+			}
 
 		}
 
 		function next() {
-			document.getElementById(current_token).className = 'conc_highlight';
+			if (current_token !== null && document.getElementById(current_token)) {
+				document.getElementById(current_token).className = 'conc_highlight';
+			}			
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token += 1;
 			if (which_token >= filtered_tokens.length) {
 				which_token = filtered_tokens.length - 1;
 			}
 			current_token = filtered_tokens[which_token];
-			openTag(document.getElementById(current_token));
+			if (document.getElementById(current_token)) {
+				openTag(document.getElementById(current_token));
+			}
 		}
 
 		function openTag(e) {
-			document.getElementById(current_token).className = 'conc_highlight';
+			if (document.getElementById(current_token)) {
+				document.getElementById(current_token).className = 'conc_highlight';
+			}			
 			current_token = e.id;
 			e.className = 'main_highlight';
 			token = e.innerHTML;
@@ -194,7 +204,7 @@
 									filtered_tokens.push(token_nbr);
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 								} else { 
-									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
+									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
 								}
 							}
 
