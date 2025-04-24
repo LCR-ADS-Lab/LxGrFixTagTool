@@ -8,8 +8,8 @@
 		<script src="js/FileSaver.js"></script>
 		<script type="text/javascript">
 
-		let current_token = null;
-		var total_token_count = null;
+		let current_token = 0;
+		var total_token_count = 0;
 		var filtered_tokens = [];
     	var selected_tags = '';
 
@@ -38,9 +38,7 @@
 		}
 
 		function previous() {
-			if (current_token !== null && document.getElementById(current_token)) {
-				document.getElementById(current_token).className = 'conc_highlight';
-			}			
+			document.getElementById(current_token).className = 'conc_highlight';	
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token -= 1;
 			if (which_token < 0) {
@@ -48,31 +46,22 @@
 			}
 			current_token = filtered_tokens[which_token];
 			document.getElementById('info_box').innerHTML += current_token;
-			if (document.getElementById(current_token)) {
-				openTag(document.getElementById(current_token));
-			}
-
+			openTag(document.getElementById(current_token));
 		}
 
 		function next() {
-			if (current_token !== null && document.getElementById(current_token)) {
-				document.getElementById(current_token).className = 'conc_highlight';
-			}			
+			document.getElementById(current_token).className = 'conc_highlight';
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token += 1;
 			if (which_token >= filtered_tokens.length) {
 				which_token = filtered_tokens.length - 1;
 			}
 			current_token = filtered_tokens[which_token];
-			if (document.getElementById(current_token)) {
-				openTag(document.getElementById(current_token));
-			}
+			openTag(document.getElementById(current_token));
 		}
 
 		function openTag(e) {
-			if (document.getElementById(current_token)) {
-				document.getElementById(current_token).className = 'conc_highlight';
-			}			
+			document.getElementById(current_token).className = 'conc_highlight';	
 			current_token = e.id;
 			e.className = 'main_highlight';
 			token = e.innerHTML;
