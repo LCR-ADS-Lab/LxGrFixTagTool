@@ -43,7 +43,7 @@
         console.log('No current token selected.');
         return;
     }
-
+	current_token = filtered_tokens[0];
     if (document.getElementById(current_token)) {
         document.getElementById(current_token).className = 'conc_highlight';
     }
@@ -64,12 +64,14 @@
 }
 
 function next() {
+	    current_token = filtered_tokens[0];
+
     console.log('Next clicked!');
     if (current_token === null) {
         console.log('No current token selected.');
         return;
     }
-
+	current_token = filtered_tokens[0];
     if (document.getElementById(current_token)) {
         document.getElementById(current_token).className = 'conc_highlight';
     }
@@ -238,6 +240,7 @@ function next() {
                 		document.getElementById('filename').value = file_name.replace(/\.txt/g,'') + "_tagchecked.txt";
                 		//findNounSequences();
                 		//document.getElementById('info_box').innerHTML += filtered_tokens;
+						console.log('Filtered tokens:', filtered_tokens);
                 		if (filtered_tokens.length > 1) {
                 			document.getElementById('button_bar').style.display = 'inline';
                 			current_token = filtered_tokens[0];
