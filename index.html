@@ -62,7 +62,7 @@
 		}
 
 		function openTag(e) {
-			document.getElementById(current_token).className = 'conc_highlight';	
+			document.getElementById(current_token).className = 'conc_highlight'; //error cannot set properties of null
 			current_token = e.id;
 			e.className = 'main_highlight';
 			token = e.innerHTML;
@@ -204,7 +204,7 @@
                 		document.getElementById('filename').value = file_name.replace(/\.txt/g,'') + "_tagchecked.txt";
                 		//findNounSequences();
                 		//document.getElementById('info_box').innerHTML += filtered_tokens;
-						console.log('Filtered tokens:', filtered_tokens);
+						//console.log('Filtered tokens:', filtered_tokens);
                 		if (filtered_tokens.length > 1) {
                 			document.getElementById('button_bar').style.display = 'inline';
                 			current_token = filtered_tokens[0];
