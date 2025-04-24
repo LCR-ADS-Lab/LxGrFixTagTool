@@ -161,12 +161,12 @@
                 		var lines = output.split(/\n+/);
                 		// for every line in the text
                 		for (let i = 0; i < lines.length; i++) {
-                			var elements = lines[i].split(/\t/).filter(e => e.trim().length > 0);
+                			var elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
 							token_nbr = elements[0]
 							let complexity_tag = "";
 							let fg_tags = [];
                 			if (elements.length > 1) {
-								if (elements[3] && elements[3].includes('+')) {
+								if (elements[3].includes('+')){
 									complexity_tag = elements[3];
 									fg_tags = elements.slice(4);
 								} else {
@@ -174,12 +174,11 @@
 								}
 								//finegrain search and display not correct
 								const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
-								fg_tags = fg_tags.splice(uppercaseTagIndex)
-
+								if (uppercaseTagIndex !== -1) {
+									fg_tags.splice(uppercaseTagIndex);
+								}
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-								const matchFineGrain = fg_tags.some(tag => 
-    								filter.some(re => new RegExp(`\\b${re.source}\\b`).test(tag))
-								);								
+								const matchFineGrain = fg_tags.some(tag => filter.some(re => re.test(tag)));						
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
