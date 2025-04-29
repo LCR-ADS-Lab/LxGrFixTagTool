@@ -62,7 +62,8 @@
 		}
 
 		function openTag(e) {
-			document.getElementById(current_token).className = 'conc_highlight'; //error cannot set properties of null
+			console.log(current_token)
+			document.getElementById(current_token).className = 'conc_highlight';
 			current_token = e.id;
 			e.className = 'main_highlight';
 			token = e.innerHTML;
@@ -114,8 +115,8 @@
         var token = document.getElementById(i);
 
         if (token != null) {
-          var old_tag = token.getAttribute('kyle');
-          var new_tag =  token.getAttribute('new_kyle');
+          var old_tag = token.getAttribute('complexity');
+          var new_tag =  token.getAttribute('new_complexity');
 
           if (new_tag != ''){
             if (old_tag == new_tag) {
@@ -208,6 +209,7 @@
                 		if (filtered_tokens.length > 1) {
                 			document.getElementById('button_bar').style.display = 'inline';
                 			current_token = filtered_tokens[0];
+							console.log(current_token)
 							openTag(document.getElementById(current_token));
 						}
 					};
