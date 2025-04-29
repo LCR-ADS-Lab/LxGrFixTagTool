@@ -8,7 +8,7 @@
 		<script src="js/FileSaver.js"></script>
 		<script type="text/javascript">
 
-		let current_token = null;
+		let current_token = 0;
 		var total_token_count = 0;
 		var filtered_tokens = [];
     	var selected_tags = '';
@@ -38,41 +38,39 @@
 		}
 
 		function previous() {
-			const el = document.getElementById(current_token);
-if (!el) {
-  console.error('Element not found for id:', current_token);
-  return;
-}
-			document.getElementById(current_token).className = 'conc_highlight';
-			which_token = filtered_tokens.indexOf(current_token);
-			which_token -= 1;
-			if (which_token < 0) {
-				which_token = 0;
+			console.log('Previous clicked!');
+			let which_token = filtered_tokens.indexOf(Number(current_token));
+			if (which_token !== -1) {
+				which_token -= 1;
+				if (which_token < 0) {
+					which_token = 0;
+				}
+				current_token = filtered_tokens[which_token];
+				console.log('Previous token:', current_token);
+				openTag(document.getElementById(current_token));
+			} else {
+				console.log('current_token not found in filtered_tokens');
 			}
-			current_token = filtered_tokens[which_token];
-			document.getElementById('info_box').innerHTML += current_token;
-			openTag(document.getElementById(current_token));
-
 		}
 
 		function next() {
-			const el = document.getElementById(current_token);
-if (!el) {
-  console.error('Element not found for id:', current_token);
-  return;
-}
-			document.getElementById(current_token).className = 'conc_highlight';
-			which_token = filtered_tokens.indexOf(current_token);
-			which_token += 1;
-			if (which_token >= filtered_tokens.length) {
-				which_token = filtered_tokens.length - 1;
+			console.log('Next clicked!');
+			let which_token = filtered_tokens.indexOf(Number(current_token));
+			if (which_token !== -1) {
+				which_token += 1;
+				if (which_token >= filtered_tokens.length) {
+					which_token = filtered_tokens.length - 1;
+				}
+				current_token = filtered_tokens[which_token];
+				console.log('Next token:', current_token);
+				openTag(document.getElementById(current_token));
+			} else {
+				console.log('current_token not found in filtered_tokens');
 			}
-			current_token = filtered_tokens[which_token];
-			openTag(document.getElementById(current_token));
 		}
 
 		function openTag(e) {
-			console.log(current_token)
+			console.log('openTag updated current_token:', current_token);
 			document.getElementById(current_token).className = 'conc_highlight';
 			current_token = e.id;
 			e.className = 'main_highlight';
@@ -201,7 +199,7 @@ if (!el) {
 								let tokenText = elements[1];
 								if (match) {
 									//filtered_tokens.push(Number(token_nbr));
-									filtered_tokens.push(token_nbr.toString());
+									filtered_tokens.push(token_nbr);
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 									token_nbr += 1;
 								} else { 
