@@ -37,25 +37,16 @@
 			document.getElementById('field7').value = new_finegrain_tags[7];
 		}
 
-		function previous() {
-			console.log('Previous clicked!');
-			let which_token = filtered_tokens.indexOf(Number(current_token));
-			if (which_token !== -1) {
-				which_token -= 1;
-				if (which_token < 0) {
-					which_token = 0;
-				}
-				current_token = filtered_tokens[which_token];
-				console.log('Previous token:', current_token);
-				openTag(document.getElementById(current_token));
-			} else {
-				console.log('current_token not found in filtered_tokens');
-			}
-		}
+			function next() {
+		console.log('Next clicked!');
 
-		function next() {
-			console.log('Next clicked!');
-			let which_token = filtered_tokens.indexOf(Number(current_token));
+		setTimeout(() => {
+			// Log current_token and filtered_tokens for debugging
+			console.log('Filtered tokens:', filtered_tokens);
+			console.log('Current token:', current_token);
+
+			let which_token = filtered_tokens.indexOf(current_token.toString()); // Ensure we are using the correct type (string or number)
+			
 			if (which_token !== -1) {
 				which_token += 1;
 				if (which_token >= filtered_tokens.length) {
@@ -63,11 +54,39 @@
 				}
 				current_token = filtered_tokens[which_token];
 				console.log('Next token:', current_token);
+
 				openTag(document.getElementById(current_token));
 			} else {
 				console.log('current_token not found in filtered_tokens');
 			}
-		}
+		}, 0); // Small timeout for DOM updates
+	}
+
+	function previous() {
+		console.log('Previous clicked!');
+
+		setTimeout(() => {
+			// Log current_token and filtered_tokens for debugging
+			console.log('Filtered tokens:', filtered_tokens);
+			console.log('Current token:', current_token);
+
+			let which_token = filtered_tokens.indexOf(current_token.toString()); // Ensure we are using the correct type (string or number)
+			
+			if (which_token !== -1) {
+				which_token -= 1;
+				if (which_token < 0) {
+					which_token = 0;
+				}
+				current_token = filtered_tokens[which_token];
+				console.log('Previous token:', current_token);
+
+				openTag(document.getElementById(current_token));
+			} else {
+				console.log('current_token not found in filtered_tokens');
+			}
+		}, 0); // Small timeout for DOM updates
+	}
+
 
 		function openTag(e) {
 			console.log('openTag updated current_token:', current_token);
@@ -209,16 +228,20 @@
 							}
 
                 		}
+						console.log("Type of current_token:", typeof current_token);
+						console.log("Contents of current_token:", current_token);
                 		document.getElementById('text_window').innerHTML = text;
                 		total_token_count = token_nbr;
                 		document.getElementById('filename').value = file_name.replace(/\.txt/g,'') + "_tagchecked.txt";
-                		//findNounSequences();
-                		//document.getElementById('info_box').innerHTML += filtered_tokens;
-						//console.log('Filtered tokens:', filtered_tokens);
+						console.log("Type of filtered_tokens:", typeof filtered_tokens);
+						console.log("Contents of filtered_tokens:", filtered_tokens);
+						console.log("Type of filtered_tokens[0]:", typeof filtered_tokens[0]);
+						console.log("Contents of filtered_tokens[0]:", filtered_tokens[0]);
                 		if (filtered_tokens.length > 0) {
                 			document.getElementById('button_bar').style.display = 'inline';
                 			current_token = filtered_tokens[0];
-							console.log(current_token)
+							console.log("Type of current_token:", typeof current_token);
+							console.log("Contents of current_token:", current_token);
 							openTag(document.getElementById(current_token));
 						}
 					};
