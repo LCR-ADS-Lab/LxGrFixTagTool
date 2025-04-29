@@ -37,55 +37,35 @@
 			document.getElementById('field7').value = new_finegrain_tags[7];
 		}
 
-			function next() {
+		function next() {
 		console.log('Next clicked!');
-
-		setTimeout(() => {
-			// Log current_token and filtered_tokens for debugging
-			console.log('Filtered tokens:', filtered_tokens);
-			console.log('Current token:', current_token);
-
-			let which_token = filtered_tokens.indexOf(current_token); // Ensure we are using the correct type (string or number)
-			
-			if (which_token !== -1) {
-				which_token += 1;
-				if (which_token >= filtered_tokens.length) {
-					which_token = filtered_tokens.length - 1;
-				}
-				current_token = filtered_tokens[which_token];
-				console.log('Next token:', current_token);
-
-				openTag(document.getElementById(current_token));
-			} else {
-				console.log('current_token not found in filtered_tokens');
+		console.log('Filtered tokens:', filtered_tokens);
+		console.log('Current token:', current_token);
+		document.getElementById(current_token).className = 'conc_highlight';
+			which_token = filtered_tokens.indexOf(Number(current_token));
+			which_token += 1;
+			if (which_token >= filtered_tokens.length) {
+				which_token = filtered_tokens.length - 1;
 			}
-		}, 0); // Small timeout for DOM updates
-	}
+			current_token = filtered_tokens[which_token];
+			openTag(document.getElementById(current_token));
+		}
+
 
 	function previous() {
 		console.log('Previous clicked!');
-
-		setTimeout(() => {
-			// Log current_token and filtered_tokens for debugging
 			console.log('Filtered tokens:', filtered_tokens);
 			console.log('Current token:', current_token);
-
-			let which_token = filtered_tokens.indexOf(current_token); // Ensure we are using the correct type (string or number)
-			
-			if (which_token !== -1) {
-				which_token -= 1;
-				if (which_token < 0) {
-					which_token = 0;
-				}
-				current_token = filtered_tokens[which_token];
-				console.log('Previous token:', current_token);
-
-				openTag(document.getElementById(current_token));
-			} else {
-				console.log('current_token not found in filtered_tokens');
+			document.getElementById(current_token).className = 'conc_highlight';
+			which_token = filtered_tokens.indexOf(Number(current_token));
+			which_token -= 1;
+			if (which_token < 0) {
+				which_token = 0;
 			}
-		}, 0); // Small timeout for DOM updates
-	}
+			current_token = filtered_tokens[which_token];
+			document.getElementById('info_box').innerHTML += current_token;
+			openTag(document.getElementById(current_token));
+		}
 
 
 		function openTag(e) {
