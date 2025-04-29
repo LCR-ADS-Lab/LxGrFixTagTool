@@ -8,7 +8,7 @@
 		<script src="js/FileSaver.js"></script>
 		<script type="text/javascript">
 
-		let current_token = 0;
+		let current_token = null;
 		var total_token_count = 0;
 		var filtered_tokens = [];
     	var selected_tags = '';
@@ -38,6 +38,11 @@
 		}
 
 		function previous() {
+			const el = document.getElementById(current_token);
+if (!el) {
+  console.error('Element not found for id:', current_token);
+  return;
+}
 			document.getElementById(current_token).className = 'conc_highlight';
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token -= 1;
@@ -51,6 +56,11 @@
 		}
 
 		function next() {
+			const el = document.getElementById(current_token);
+if (!el) {
+  console.error('Element not found for id:', current_token);
+  return;
+}
 			document.getElementById(current_token).className = 'conc_highlight';
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token += 1;
@@ -190,7 +200,7 @@
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
-									filtered_tokens.push(token_nbr);
+									filtered_tokens.push(Number(token_nbr));
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 									token_nbr += 1;
 								} else { 
@@ -206,7 +216,7 @@
                 		//findNounSequences();
                 		//document.getElementById('info_box').innerHTML += filtered_tokens;
 						//console.log('Filtered tokens:', filtered_tokens);
-                		if (filtered_tokens.length > 1) {
+                		if (filtered_tokens.length > 0) {
                 			document.getElementById('button_bar').style.display = 'inline';
                 			current_token = filtered_tokens[0];
 							console.log(current_token)
