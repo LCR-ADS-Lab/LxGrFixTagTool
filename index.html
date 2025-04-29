@@ -4,7 +4,7 @@
   	<meta charset="utf-8">
     <title>LxGrFixTagTool</title>
     <link href="style.css" rel="stylesheet">
-    	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.6/d3.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 		<script src="js/FileSaver.js"></script>
 		<script type="text/javascript">
 
@@ -107,7 +107,7 @@
 
       var tags = selected_tags.split("|")
 
-      var this_tag_regex = new ConvertToRegex([0]);
+      var this_tag_regex = new ConvertToRegex(tags[0]);
 
       for (var i = 0, length = total_token_count; i < length; i++) {
 
@@ -183,7 +183,7 @@
 								//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
 								//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-								let exact_fg_tags = fg_tags.map(el => {return `^${el}$`;});
+								let exact_fg_tags = fg_tags.map(el => new RegExp(`^${el}$`));
 								const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));				
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
