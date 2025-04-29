@@ -20,7 +20,7 @@
 		function setNewComplexity() {
 			let new_tag = document.getElementById('field1').value
 			document.getElementById(current_token).setAttribute('new_complexity', new_tag);
-      		get_precision()
+      		get_precision();
 		}
 
 		function setNewFinegrain() {
@@ -31,9 +31,9 @@
 				document.getElementById('field6').value + ',' + 
 				document.getElementById('field7').value + ',' + 
 				document.getElementById('field8').value + ',' + 
-				document.getElementById('field9').value + ',' + 
+				document.getElementById('field9').value;
 			document.getElementById(current_token).setAttribute('new_finegrain', new_tag);
-      		get_precision()
+      		get_precision();
 		}
 
 		function getNewTags(e){
