@@ -87,14 +87,14 @@
 			let finegrain_tags = e.getAttribute("finegrain").split(',')
 			this_text += '<table>';
 			this_text += '<tr><td><form>Complexity: </td><td>' + complexity_tag + '</td><td><input type="text" id="field1" onchange="setNewComplexity();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 1: </td><td>' + finegrain_tags[0] + '</td><td><input type="text" id="field2" onchange="setNewFingrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 2: </td><td>' + finegrain_tags[1] + '</td><td><input type="text" id="field3" onchange="setNewFingrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 3: </td><td>' + finegrain_tags[2] + '</td><td><input type="text" id="field4" onchange="setNewFingrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 4: </td><td>' + finegrain_tags[3] + '</td><td><input type="text" id="field5" onchange="setNewFingrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 5: </td><td>' + finegrain_tags[4] + '</td><td><input type="text" id="field6" onchange="setNewFingrain();"></td></tr>'
-			this_text += '<tr><td>Finegrain Cat. 6: </td><td>' + finegrain_tags[5] + '</td><td><input type="text" id="field7" onchange="setNewFingrain();"></td></tr>'
-			this_text += '<tr><td>Finegrain Cat. 7: </td><td>' + finegrain_tags[6] + '</td><td><input type="text" id="field8" onchange="setNewFingrain();"></td></tr>'
-			this_text += '<tr><td>Finegrain Cat. 8: </td><td>' + finegrain_tags[7] + '</td><td><input type="text" id="field9" onchange="setNewFingrain();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 1: </td><td>' + finegrain_tags[0] + '</td><td><input type="text" id="field2" onchange="setNewFinegrain();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 2: </td><td>' + finegrain_tags[1] + '</td><td><input type="text" id="field3" onchange="setNewFinegrain();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 3: </td><td>' + finegrain_tags[2] + '</td><td><input type="text" id="field4" onchange="setNewFinegrain();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 4: </td><td>' + finegrain_tags[3] + '</td><td><input type="text" id="field5" onchange="setNewFinegrain();"></td></tr>';
+			this_text += '<tr><td>Finegrain Cat. 5: </td><td>' + finegrain_tags[4] + '</td><td><input type="text" id="field6" onchange="setNewFinegrain();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 6: </td><td>' + finegrain_tags[5] + '</td><td><input type="text" id="field7" onchange="setNewFinegrain();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 7: </td><td>' + finegrain_tags[6] + '</td><td><input type="text" id="field8" onchange="setNewFinegrain();"></td></tr>'
+			this_text += '<tr><td>Finegrain Cat. 8: </td><td>' + finegrain_tags[7] + '</td><td><input type="text" id="field9" onchange="setNewFinegrain();"></td></tr>'
 			this_text += '</table>';
 			this_text += '<hr>Comments:<br><textarea rows="4" cols="30" name="comments" onchange="includeComments(this);">' + e.getAttribute("data-comments")  + '</textarea>';
 			document.getElementById('info_box').innerHTML = this_text;
@@ -117,7 +117,7 @@
       let false_positives = 0;
       let true_positives = 0;
       //let false_negatives = 0;
-      let tags = selected_tags.split("|")
+      let tags = selected_tags.split("\n")
       let this_tag_regex = new ConvertToRegex(tags[0]);
       for (let i = 0, length = total_token_count; i < length; i++) {
 
@@ -160,6 +160,7 @@
 		let output = "";
 		//filter for target tags, with option to use multiple tags separated by newline
         const rawInput = document.getElementById('fixtags').value;
+		selected_tags = rawInput
 		const tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
 		const newList = tagList.map(ConvertToRegex);
         let filter = newList
