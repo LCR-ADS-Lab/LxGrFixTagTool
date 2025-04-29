@@ -117,6 +117,7 @@
       let false_positives = 0;
       let true_positives = 0;
       //let false_negatives = 0;
+	  //not working - check if selected_tags is correct
       let tags = selected_tags.split("\n")
       let this_tag_regex = new ConvertToRegex(tags[0]);
       for (let i = 0, length = total_token_count; i < length; i++) {
