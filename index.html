@@ -44,7 +44,7 @@ if (!el) {
   return;
 }
 			document.getElementById(current_token).className = 'conc_highlight';
-			which_token = filtered_tokens.indexOf(Number(current_token));
+			which_token = filtered_tokens.indexOf(current_token);
 			which_token -= 1;
 			if (which_token < 0) {
 				which_token = 0;
@@ -62,7 +62,7 @@ if (!el) {
   return;
 }
 			document.getElementById(current_token).className = 'conc_highlight';
-			which_token = filtered_tokens.indexOf(Number(current_token));
+			which_token = filtered_tokens.indexOf(current_token);
 			which_token += 1;
 			if (which_token >= filtered_tokens.length) {
 				which_token = filtered_tokens.length - 1;
@@ -200,7 +200,8 @@ if (!el) {
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
-									filtered_tokens.push(Number(token_nbr));
+									//filtered_tokens.push(Number(token_nbr));
+									filtered_tokens.push(token_nbr.toString());
 									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 									token_nbr += 1;
 								} else { 
