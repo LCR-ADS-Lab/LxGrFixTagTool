@@ -38,10 +38,7 @@
 		}
 
 		function next() {
-		console.log('Next clicked!');
-		console.log('Filtered tokens:', filtered_tokens);
-		console.log('Current token:', current_token);
-		document.getElementById(current_token).className = 'conc_highlight';
+			document.getElementById(current_token).className = 'conc_highlight';
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token += 1;
 			if (which_token >= filtered_tokens.length) {
@@ -51,11 +48,7 @@
 			openTag(document.getElementById(current_token));
 		}
 
-
-	function previous() {
-		console.log('Previous clicked!');
-			console.log('Filtered tokens:', filtered_tokens);
-			console.log('Current token:', current_token);
+		function previous() {
 			document.getElementById(current_token).className = 'conc_highlight';
 			which_token = filtered_tokens.indexOf(Number(current_token));
 			which_token -= 1;
@@ -108,7 +101,6 @@
 		}
 
     function get_precision(){
-		//fix
       var false_positives = 0;
       var true_positives = 0;
       var false_negatives = 0;
@@ -179,7 +171,6 @@
 								} else {
 									fg_tags = elements.slice(3);
 								}
-								//finegrain search and display not correct
 								const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
 								if (uppercaseTagIndex !== -1) {
 									fg_tags.splice(uppercaseTagIndex);
@@ -192,7 +183,8 @@
 								//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
 								//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-								const matchFineGrain = fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));				
+								let exact_fg_tags = fg_tags.map(el => {return `^${el}$`;});
+								const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));				
 								const match = matchComplexity || matchFineGrain;								
 								let tokenText = elements[1];
 								if (match) {
@@ -230,8 +222,7 @@
         }
 
         function exportData() {
-			//fix
-		        var content = "Token\tOriginal_Kyle_Tag\tNew_Kyle_Tag\ttarget_feature\tmodified?\tComments\r\n";
+		        var content = "Token\tOriginal_Complexity_Tag\tNew_Complexity_Tag\ttarget_feature\tmodified?\tComments\r\n";
 
 				for (var i = 0, length = total_token_count; i < length; i++) {
 
