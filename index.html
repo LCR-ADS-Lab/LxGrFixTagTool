@@ -9,9 +9,9 @@
 		<script type="text/javascript">
 
 		let current_token = 0;
-		var total_token_count = 0;
-		var filtered_tokens = [];
-    	var selected_tags = '';
+		let total_token_count = 0;
+		let filtered_tokens = [];
+    	let selected_tags = '';
 
 		function includeComments(e) {
 			document.getElementById(current_token).setAttribute("data-comments", e.value);
@@ -45,7 +45,7 @@
 			console.log('Filtered tokens:', filtered_tokens);
 			console.log('Current token:', current_token);
 
-			let which_token = filtered_tokens.indexOf(current_token.toString()); // Ensure we are using the correct type (string or number)
+			let which_token = filtered_tokens.indexOf(current_token); // Ensure we are using the correct type (string or number)
 			
 			if (which_token !== -1) {
 				which_token += 1;
@@ -70,7 +70,7 @@
 			console.log('Filtered tokens:', filtered_tokens);
 			console.log('Current token:', current_token);
 
-			let which_token = filtered_tokens.indexOf(current_token.toString()); // Ensure we are using the correct type (string or number)
+			let which_token = filtered_tokens.indexOf(current_token); // Ensure we are using the correct type (string or number)
 			
 			if (which_token !== -1) {
 				which_token -= 1;
@@ -181,7 +181,6 @@
 		const tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
 		const newList = tagList.map(ConvertToRegex);
         var filter = newList
-		let filtered_tokens = [];
 		token_nbr = 0;
 				if(filePath.files && filePath.files[0]) {
             		reader.onload = function (e) {
