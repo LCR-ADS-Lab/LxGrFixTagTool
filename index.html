@@ -170,7 +170,7 @@
 				let lines = output.split(/\n+/);
 
 				for (let i = 0; i < lines.length; i++) {
-					content.push(lines);
+					content.push(lines[i]);
 					let elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
 					let complexity_tag = "";
 					let fg_tags = [];
@@ -196,14 +196,14 @@
 						let exact_fg_tags = fg_tags.map(el => new RegExp(`^${el}$`));
 						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
 						const matchFineGrain = exact_fg_tags.some(tag => {
-							return filter.some(re => {
-								const result = re.test(`^${tag}$`);
-								if (result) {
-								console.log(`Match found: tag = ${tag}, regex = ${re}`);
-								}
-								return result;
-							});
-							});
+						return filter.some(re => {
+							const result = new RegExp(`^${re.source}$`).test(tag);
+							if (result) {
+							console.log(`Match found: tag = ${tag}, regex = ${re}`);
+							}
+							return result;
+						});
+						});
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
@@ -266,7 +266,6 @@
 				if (replaced_fg) {
 				elements.splice(4, 8, ...new_fg.split(","));
 				}
-
 				content[i] = elements.join("\t");
 			}
 
