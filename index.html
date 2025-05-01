@@ -191,6 +191,8 @@
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
 						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
+						
+						//STILL MATCHING PARTIAL MATCHES
 						const matchFineGrain = filter.some(tag => tag.test(fg_tags))
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
@@ -219,7 +221,7 @@
         }
 
 		function exportData() {
-			for (let i = 0; i < content.length(); i++) {
+			for (let i = 0; i < length(content); i++) {
 				let line = content[i];
 				let token = document.getElementById(i);
 				let old_comp = token.getAttribute('complexity');
