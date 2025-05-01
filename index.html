@@ -163,11 +163,11 @@
 		if(filePath.files && filePath.files[0]) {
 			reader.onload = function (e) {
 				output = e.target.result;
+				content = output.split(/\n+/);
+				console.log(content)
 				let text = '<p>';
-				let lines = output.split(/\n/);
-
+				let lines = output.split(/\n+/);
 				for (let i = 0; i < lines.length; i++) {
-					content.push(lines[i]);
 					let elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
 					let complexity_tag = "";
 					let fg_tags = [];
