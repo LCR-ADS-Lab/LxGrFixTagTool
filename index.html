@@ -12,8 +12,6 @@
 		let total_token_count = 0;
 		let filtered_tokens = [];
 		let tagList = [];
-    	let newList= [];
-		let sentence_vals = [];
 		let content = [];
 
 		function includeComments(e) {
@@ -159,8 +157,7 @@
 		const rawInput = document.getElementById('fixtags').value;
 		selected_tags = rawInput
 		tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
-		newList = tagList.map(ConvertToRegex);
-        let filter = newList
+        let filter = tagList.map(ConvertToRegex);
 		token_nbr = 0;
 
 		if(filePath.files && filePath.files[0]) {
@@ -193,17 +190,8 @@
 						//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-						let exact_fg_tags = fg_tags.map(el => new RegExp(`^${el}$`));
 						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
-						const matchFineGrain = exact_fg_tags.some(tag => {
-						return filter.some(re => {
-							const result = new RegExp(`^${re.source}$`).test(tag);
-							if (result) {
-							console.log(`Match found: tag = ${tag}, regex = ${re}`);
-							}
-							return result;
-						});
-						});
+						const matchFineGrain = filter.some(tag => tag.test(fg_tags))
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
@@ -269,7 +257,7 @@
 				content[i] = elements.join("\t");
 			}
 
-			let blob = new Blob(content, { type: "text/plain;charset=utf-8" });
+			let blob = new Blob([content.join("\r\n")], { type: "text/plain;charset=utf-8" });
 			let newfilename = document.getElementById('filename').value;
 			if (newfilename == '') {
 				newfilename = 'output.txt';
