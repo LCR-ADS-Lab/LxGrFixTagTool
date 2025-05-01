@@ -11,7 +11,10 @@
 		let current_token = 0;
 		let total_token_count = 0;
 		let filtered_tokens = [];
-    	let selected_tags = '';
+		let tagList = [];
+    	let newList= [];
+		let sentence_vals = [];
+		let content = [];
 
 		function includeComments(e) {
 			document.getElementById(current_token).setAttribute("data-comments", e.value);
@@ -34,7 +37,6 @@
 				document.getElementById('field9').value;
 			console.log("new_tag: ", new_tag)
 			document.getElementById(current_token).setAttribute('new_finegrain', new_tag);
-      		get_precision();
 		}
 
 		function getNewTags(e){
@@ -117,12 +119,7 @@
       let false_positives = 0;
       let true_positives = 0;
       let false_negatives = 0;
-	  //not working - check if selected_tags is correct
-      let tags = selected_tags.split("\n")
-	  console.log("selected_tags for precision: ", tags)
-	  console.log("tags split: ", selected_tags.split("\n"))
-      let this_tag_regex = new ConvertToRegex(tags[0]);
-	  console.log("this_tag_regex: ", this_tag_regex)
+	  this_tag = tagList[0]
       for (let i = 0, length = total_token_count; i < length; i++) {
         let token = document.getElementById(i);
         if (token != null) {
@@ -133,7 +130,7 @@
               true_positives = true_positives + 1;
             } else {
               //separate false positive from false negative
-              if (old_tag.match(this_tag_regex)) {
+              if (old_tag.match(this_tag)) {
                 false_positives = false_positives + 1;
               }
             }
@@ -145,8 +142,7 @@
 
         let precision = true_positives / (true_positives + false_positives)
 
-        document.getElementById('cit_info').innerHTML = "Overall Precision" + " for tag " + tags[0] + ": " + precision.toFixed(2);
-
+        document.getElementById('cit_info').innerHTML = "Overall Precision" + " for tag " + tagList[0] + ": " + precision.toFixed(2);
     }
 
 	function ConvertToRegex(text){
@@ -155,103 +151,134 @@
 	}
 
 	function readText(filePath) {
-		//read in file
+	
 		reader = new FileReader();
 		file_name = filePath.files[0].name;
 		let output = "";
-		//filter for target tags, with option to use multiple tags separated by newline
-        const rawInput = document.getElementById('fixtags').value;
+
+		const rawInput = document.getElementById('fixtags').value;
 		selected_tags = rawInput
-		const tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
-		const newList = tagList.map(ConvertToRegex);
+		tagList = rawInput.split('\n').map(tag => tag.trim()).filter(tag => tag.length > 0);
+		newList = tagList.map(ConvertToRegex);
         let filter = newList
 		token_nbr = 0;
-				if(filePath.files && filePath.files[0]) {
-            		reader.onload = function (e) {
-                		output = e.target.result;
-                		let text = '<p>';
-                		let lines = output.split(/\n+/);
-                		// for every line in the text
-                		for (let i = 0; i < lines.length; i++) {
-                			let elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
-							let complexity_tag = "";
-							let fg_tags = [];
-                			if (elements.length > 1) {
-								if (elements[3].includes('+')){
-									complexity_tag = elements[3];
-									fg_tags = elements.slice(4);
-								} else {
-									fg_tags = elements.slice(3);
-								}
-								const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
-								if (uppercaseTagIndex !== -1) {
-									fg_tags.splice(uppercaseTagIndex);
-								}
-								while (fg_tags.length < 8){
-									fg_tags.push("");
-								}
-								//let comp_filter = filter.filter(re => re.includes('+'))
-								//let fg_filter = filter.filter(re => !re.includes('+'))
-								//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
-								//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
-								const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-								let exact_fg_tags = fg_tags.map(el => new RegExp(`^${el}$`));
-								const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));				
-								const match = matchComplexity || matchFineGrain;								
-								let tokenText = elements[1];
-								if (match) {
-									//filtered_tokens.push(Number(token_nbr));
-									filtered_tokens.push(token_nbr);
-									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
-									token_nbr += 1;
-								} else { 
-									text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
-									token_nbr += 1;
-								}
-							}
 
-                		}
-                		document.getElementById('text_window').innerHTML = text;
-                		total_token_count = token_nbr;
-                		document.getElementById('filename').value = file_name.replace(/\.txt/g,'') + "_tagchecked.txt";
-                		if (filtered_tokens.length > 0) {
-                			document.getElementById('button_bar').style.display = 'inline';
-                			current_token = filtered_tokens[0];
-							openTag(document.getElementById(current_token));
+		if(filePath.files && filePath.files[0]) {
+			reader.onload = function (e) {
+				output = e.target.result;
+				let text = '<p>';
+				let lines = output.split(/\n+/);
+
+				for (let i = 0; i < lines.length; i++) {
+					content.push(lines);
+					let elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
+					let complexity_tag = "";
+					let fg_tags = [];
+					if (elements.length > 1) {
+						if (elements[3].includes('+')){
+							complexity_tag = elements[3];
+							fg_tags = elements.slice(4);
+						} else {
+							fg_tags = elements.slice(3);
 						}
-					};
-				reader.readAsText(filePath.files[0]);
-                };
-
-        }
-
-        function exportData() {
-			//fix: needs sentence values, finegrain tags etc
-		        let content = "Token\tOriginal_Complexity_Tag\tNew_Complexity_Tag\ttarget_feature\tmodified?\tComments\r\n";
-
-				for (let i = 0, length = total_token_count; i < length; i++) {
-
-					let token = document.getElementById(i);
-
-					if (token != null) {
-						clean_token = token.innerHTML.replace(/&lt;/g,'<');
-						clean_token = clean_token.replace(/&gt;/g,'>');
-						let old_tag = token.getAttribute('complexity');
-						let new_tag =  token.getAttribute('new_complexity');
-						let modified = 1;
-						if (old_tag == new_tag || new_tag == '') {modified = 0;};
-						content +=  clean_token + "\t" + old_tag + "\t" + new_tag + "\t" + token.getAttribute("target_tag") + "\t" + modified + "\t" + token.getAttribute("data-comments").replace(/\n/g,' ') + "\r\n";
+						const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
+						if (uppercaseTagIndex !== -1) {
+							fg_tags.splice(uppercaseTagIndex);
+						}
+						while (fg_tags.length < 8){
+							fg_tags.push("");
+						}
+						//let comp_filter = filter.filter(re => re.includes('+'))
+						//let fg_filter = filter.filter(re => !re.includes('+'))
+						//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
+						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
+						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
+						let exact_fg_tags = fg_tags.map(el => new RegExp(`^${el}$`));
+						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
+						const matchFineGrain = exact_fg_tags.some(tag => {
+							return filter.some(re => {
+								const result = re.test(`^${tag}$`);
+								if (result) {
+								console.log(`Match found: tag = ${tag}, regex = ${re}`);
+								}
+								return result;
+							});
+							});
+						const match = matchComplexity || matchFineGrain;								
+						let tokenText = elements[1];
+						if (match) {
+							filtered_tokens.push(token_nbr);
+							text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
+							token_nbr += 1;
+						} else { 
+							text = text + '<a href="#" id="' + token_nbr + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
+							token_nbr += 1;
 						}
 					}
 
-				let blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-				let newfilename = document.getElementById('filename').value;
-				if (newfilename == '') {
-					newfilename = 'output.txt';
 				}
-				saveAs(blob, newfilename);
+				document.getElementById('text_window').innerHTML = text;
+				total_token_count = token_nbr;
+				document.getElementById('filename').value = file_name.replace(/\.txt/g,'') + "_tagchecked.txt";
+				if (filtered_tokens.length > 0) {
+					document.getElementById('button_bar').style.display = 'inline';
+					current_token = filtered_tokens[0];
+					openTag(document.getElementById(current_token));
+				}
+			};
+		reader.readAsText(filePath.files[0]);
+		};
+        }
 
-		    }
+		function exportData() {
+			for (let i = 0; i < total_token_count; i++) {
+				let line = content[i];
+				let token = document.getElementById(i);
+				let old_comp = token.getAttribute('complexity');
+				let new_comp = token.getAttribute('new_complexity');
+				let old_fg = token.getAttribute('finegrain');
+				let new_fg = token.getAttribute('new_finegrain');
+
+				let replaced_comp = false;
+				let replaced_fg = false;
+
+				if (new_comp !== "" && old_comp !== new_comp) {
+				replaced_comp = true;
+				}
+				if (new_fg !== "" && old_fg !== new_fg) {
+				replaced_fg = true;
+				}
+
+				let elements = line.split(/\t/);
+
+				if (replaced_comp) {
+				if (elements.length > 1) {
+					if (elements[3].includes('+')) {
+					elements[3] = new_comp;
+					} else {
+					elements.splice(3, 0, new_comp);
+					}
+				}
+				elements.push("ComplexityTagReplaced:");
+				elements.push(old_comp);
+				}
+
+				if (replaced_fg) {
+				elements.splice(4, 8, ...new_fg.split(","));
+				}
+
+				content[i] = elements.join("\t");
+			}
+
+			let blob = new Blob(content, { type: "text/plain;charset=utf-8" });
+			let newfilename = document.getElementById('filename').value;
+			if (newfilename == '') {
+				newfilename = 'output.txt';
+			}
+			saveAs(blob, newfilename);
+			}
+
+
 		</script>
 
   </head>
