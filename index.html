@@ -32,6 +32,7 @@
 				document.getElementById('field7').value + ',' + 
 				document.getElementById('field8').value + ',' + 
 				document.getElementById('field9').value;
+			console.log("new_tag: ", new_tag)
 			document.getElementById(current_token).setAttribute('new_finegrain', new_tag);
       		get_precision();
 		}
@@ -75,7 +76,6 @@
 
 
 		function openTag(e) {
-			console.log('openTag updated current_token:', current_token);
 			document.getElementById(current_token).className = 'conc_highlight';
 			current_token = e.id;
 			e.className = 'main_highlight';
@@ -116,18 +116,18 @@
     function get_precision(){
       let false_positives = 0;
       let true_positives = 0;
-      //let false_negatives = 0;
+      let false_negatives = 0;
 	  //not working - check if selected_tags is correct
       let tags = selected_tags.split("\n")
+	  console.log("selected_tags for precision: ", tags)
+	  console.log("tags split: ", selected_tags.split("\n"))
       let this_tag_regex = new ConvertToRegex(tags[0]);
+	  console.log("this_tag_regex: ", this_tag_regex)
       for (let i = 0, length = total_token_count; i < length; i++) {
-
         let token = document.getElementById(i);
-
         if (token != null) {
           let old_tag = token.getAttribute('complexity');
           let new_tag =  token.getAttribute('new_complexity');
-
           if (new_tag != ''){
             if (old_tag == new_tag) {
               true_positives = true_positives + 1;
