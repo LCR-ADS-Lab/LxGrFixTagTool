@@ -164,7 +164,7 @@
 			reader.onload = function (e) {
 				output = e.target.result;
 				let text = '<p>';
-				let lines = output.split(/\n+/);
+				let lines = output.split(/\n/);
 
 				for (let i = 0; i < lines.length; i++) {
 					content.push(lines[i]);
@@ -219,7 +219,7 @@
         }
 
 		function exportData() {
-			for (let i = 0; i < total_token_count; i++) {
+			for (let i = 0; i < content.length(); i++) {
 				let line = content[i];
 				let token = document.getElementById(i);
 				let old_comp = token.getAttribute('complexity');
@@ -245,6 +245,7 @@
 					elements[3] = new_comp;
 					} else {
 					elements.splice(3, 0, new_comp);
+					old_comp = "N/A"
 					}
 				}
 				elements.push("ComplexityTagReplaced:");
