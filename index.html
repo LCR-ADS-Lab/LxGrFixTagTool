@@ -200,40 +200,38 @@
         }
 
 		function exportData() {
+			let updatedContent = [];
+
 			for (let i = 0; i < content.length; i++) {
 				let line = content[i];
-				if (line.startsWith("#")) {
-					line = line[0] + ' ' + line.slice(1);
-					if (i > 1) {
-						line = '\n' + line;
-					}
+
+				if (/^#sentid = \d+/.test(line) && updatedContent.length > 0) {
+					updatedContent.push("");
 				}
-				token = document.querySelector(`[content_id="${i}"]`);
-				if (!token) continue;
+
+				let token = document.querySelector(`[content_id="${i}"]`);
+				if (!token) {
+					updatedContent.push(line);
+					continue;
+				}
+
 				let old_comp = token.getAttribute('complexity');
 				let new_comp = token.getAttribute('new_complexity');
 				let old_fg = token.getAttribute('finegrain');
 				let new_fg = token.getAttribute('new_finegrain');
 
-				let replaced_comp = false;
-				let replaced_fg = false;
-
-				if (new_comp !== "" && old_comp !== new_comp) {
-				replaced_comp = true;
-				}
-				if (new_fg !== "" && old_fg !== new_fg) {
-				replaced_fg = true;
-				}
+				let replaced_comp = new_comp !== "" && old_comp !== new_comp;
+				let replaced_fg = new_fg !== "" && old_fg !== new_fg;
 
 				let elements = line.split(/\t/);
 
 				if (replaced_comp) {
 					if (elements.length > 1) {
 						if (elements[3].includes('+')) {
-						elements[3] = new_comp;
+							elements[3] = new_comp;
 						} else {
-						elements.splice(3, 0, new_comp);
-						old_comp = "N/A"
+							elements.splice(3, 0, new_comp);
+							old_comp = "N/A";
 						}
 					}
 					elements.push(old_comp);
@@ -243,20 +241,21 @@
 					elements.splice(4, 8, ...new_fg.split(","));
 				}
 
-				if (token.getAttribute("data-comments")){
-					elements.push(token.getAttribute('data-comments').replace(/\n/g,' '));
+				if (token.getAttribute("data-comments")) {
+					elements.push(token.getAttribute('data-comments').replace(/\n/g, ' '));
 				}
 
-				content[i] = elements.join("\t");
+				updatedContent.push(elements.join("\t"));
 			}
 
-			let blob = new Blob([content.join("\r\n")], { type: "text/plain;charset=utf-8" });
+			let blob = new Blob([updatedContent.join("\r\n")], { type: "text/plain;charset=utf-8" });
 			let newfilename = document.getElementById('filename').value;
 			if (newfilename == '') {
 				newfilename = 'output.txt';
 			}
 			saveAs(blob, newfilename);
-			}
+		}
+
 
 
 		</script>
