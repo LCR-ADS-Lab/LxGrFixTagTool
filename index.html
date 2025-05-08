@@ -141,16 +141,17 @@
 						content_index++;
 						continue;
 					}
-					let elements = lines[i].split(/\t/).filter(el => el.trim() !== '');;
+					let elements = lines[i].split(/\t/);
 					let complexity_tag = "";
 					let fg_tags = [];
 					if (elements.length > 1) {
-						if (elements[3].includes('+')){
+						if (elements[3] !== ""){
 							complexity_tag = elements[3];
 							fg_tags = elements.slice(4);
 						} else {
 							fg_tags = elements.slice(3);
 						}
+						elements = elements.filter(el => el.trim() !== '');
 						const uppercaseTagIndex = fg_tags.findIndex(tag => /^[A-Z]/.test(tag));
 						if (uppercaseTagIndex !== -1) {
 							fg_tags.splice(uppercaseTagIndex);
@@ -170,7 +171,7 @@
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
-							console.log(filter)	
+							console.log(filter)
 							console.log(fg_tags)
 							console.log(fg_exact)
 							filtered_tokens.push(token_nbr);
