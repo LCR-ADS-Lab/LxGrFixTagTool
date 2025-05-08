@@ -167,7 +167,8 @@
 						//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));	
-						const matchFineGrain = fg_tags.some(fg =>
+						fg_exact = fg_tags.map(ConvertToRegex)
+						const matchFineGrain = fg_exact.some(fg =>
 							filter.some(f => f.source === fg.source && f.flags === fg.flags)
 						);
 						const match = matchComplexity || matchFineGrain;								
