@@ -159,14 +159,15 @@
 						while (fg_tags.length < 8){
 							fg_tags.push("");
 						}
+						if (fg_tags[1] == ""){
+							fg_tags.shift();
+						}
 						//let comp_filter = filter.filter(re => re.includes('+'))
 						//let fg_filter = filter.filter(re => !re.includes('+'))
 						//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
-						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
-						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
-						
-						fg_exact = fg_tags.map(t => new RegExp(`\\b${t}\\b`));
+						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));						
+						fg_exact = fg_tags.filter(t => t.trim() !== '').map(t => new RegExp(`\\b${t}\\b`));
 						const matchFineGrain = filter.some(tag => tag.test(fg_exact))
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
