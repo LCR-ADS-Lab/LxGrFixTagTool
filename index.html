@@ -22,7 +22,6 @@
 		function setNewComplexity() {
 			let new_tag = document.getElementById('field1').value
 			document.getElementById(current_token).setAttribute('new_complexity', new_tag);
-      		get_precision();
 		}
 
 		function setNewFinegrain() {
@@ -114,36 +113,6 @@
 			e.scrollTop = e.scrollTop + 50;
 		}
 
-    function get_precision(){
-      let false_positives = 0;
-      let true_positives = 0;
-      let false_negatives = 0;
-	  this_tag = tagList[0]
-      for (let i = 0, length = total_token_count; i < length; i++) {
-        let token = document.getElementById(i);
-        if (token != null) {
-          let old_tag = token.getAttribute('complexity');
-          let new_tag =  token.getAttribute('new_complexity');
-          if (new_tag != ''){
-            if (old_tag == new_tag) {
-              true_positives = true_positives + 1;
-            } else {
-              //separate false positive from false negative
-              if (old_tag.match(this_tag)) {
-                false_positives = false_positives + 1;
-              }
-            }
-
-            }
-          }
-
-        }
-
-        let precision = true_positives / (true_positives + false_positives)
-
-        document.getElementById('cit_info').innerHTML = "Overall Precision" + " for tag " + tagList[0] + ": " + precision.toFixed(2);
-    }
-
 	function ConvertToRegex(text){
 	    text = text.replace(/\+/g, "\\+").replace(/_/g, "\\_");
 		return new RegExp(text, "")
@@ -196,7 +165,7 @@
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));
 						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
 						
-						//STILL MATCHING PARTIAL MATCHES
+						fg_tags = fg_tags.map(t => new RegExp(`\\b${t}\\b`));
 						const matchFineGrain = filter.some(tag => tag.test(fg_tags))
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
@@ -256,9 +225,14 @@
 					elements.splice(3, 0, new_comp);
 					old_comp = "N/A"
 					}
+				} else if (elements.substring(0,1) == '#'){
+					elements = elements.substring(0,1) + ' ' + elements.slice(1);
+					if (i > 1){
+						elements = '\n' + elements;
+					}
 				}
-				elements.push("ComplexityTagReplaced:");
-				elements.push(old_comp);
+				elements.push(old_comp + '\t');
+				elements.push(token.getAttribute('data-comments').replace(/\n/g,' '));
 				}
 
 				if (replaced_fg) {
