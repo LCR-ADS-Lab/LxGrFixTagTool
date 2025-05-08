@@ -166,13 +166,13 @@
 						//const matchFineGrain = exact_fg_tags.some(tag => filter.some(re => re.test(`^${tag}$`)));		
 						
 						fg_exact = fg_tags.map(t => new RegExp(`\\b${t}\\b`));
-						console.log(filter)
-						console.log(fg_tags)
-						console.log(fg_exact)
 						const matchFineGrain = filter.some(tag => tag.test(fg_exact))
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
+							console.log(filter)	
+							console.log(fg_tags)
+							console.log(fg_exact)
 							filtered_tokens.push(token_nbr);
 							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 							token_nbr += 1;
@@ -274,7 +274,7 @@
 				</table>
 			</td>
 
-			<td><h2> LxGrFixTagTool: Tag Checking (Precision) </h2></td>
+			<td><h2> LxGrFixTagTool </h2></td>
 			<td><div id="cit_info">
 
       </div></td>
