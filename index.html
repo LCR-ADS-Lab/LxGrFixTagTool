@@ -167,15 +167,10 @@
 						//const matchComplexity = complexity_tag && comp_filter.some(re => re.test(complexity_tag));
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));						
-						fg_exact = fg_tags.filter(t => t.trim() !== '').map(t => new RegExp(`\\b${t}\\b`));
-						const matchFineGrain = filter.some(tag => fg_exact.some(fg => tag.test(fg)));
+						const matchFineGrain = filter.some(tag => fg_tags.some(fg => tag.test(fg)));
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
-							console.log("stuff for: " + elements)
-							console.log("filter: " + filter)
-							console.log("fg_tags: " + fg_tags)
-							console.log("fg_exact: " + fg_exact)
 							filtered_tokens.push(token_nbr);
 							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 							token_nbr += 1;
