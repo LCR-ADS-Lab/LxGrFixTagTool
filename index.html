@@ -171,9 +171,10 @@
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
-							console.log(filter)
-							console.log(fg_tags)
-							console.log(fg_exact)
+							console.log("stuff for: " + elements)
+							console.log("filter: " + filter)
+							console.log("fg_tags: " + fg_tags)
+							console.log("fg_exact: " + fg_exact)
 							filtered_tokens.push(token_nbr);
 							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 							token_nbr += 1;
@@ -219,29 +220,35 @@
 				replaced_fg = true;
 				}
 
+				if (line.startsWith("#")) {
+					line = line[0] + ' ' + line.slice(1);
+					if (i > 1) {
+						line = '\n' + line;
+					}
+				}
+
 				let elements = line.split(/\t/);
 
 				if (replaced_comp) {
-				if (elements.length > 1) {
-					if (elements[3].includes('+')) {
-					elements[3] = new_comp;
-					} else {
-					elements.splice(3, 0, new_comp);
-					old_comp = "N/A"
+					if (elements.length > 1) {
+						if (elements[3].includes('+')) {
+						elements[3] = new_comp;
+						} else {
+						elements.splice(3, 0, new_comp);
+						old_comp = "N/A"
+						}
 					}
-				} else if (elements.substring(0,1) == '#'){
-					elements = elements.substring(0,1) + ' ' + elements.slice(1);
-					if (i > 1){
-						elements = '\n' + elements;
-					}
-				}
-				elements.push(old_comp + '\t');
-				elements.push(token.getAttribute('data-comments').replace(/\n/g,' '));
+					elements.push(old_comp);
 				}
 
 				if (replaced_fg) {
-				elements.splice(4, 8, ...new_fg.split(","));
+					elements.splice(4, 8, ...new_fg.split(","));
 				}
+
+				if (token.getAttribute("data-comments")){
+					elements.push(token.getAttribute('data-comments').replace(/\n/g,' '));
+				}
+
 				content[i] = elements.join("\t");
 			}
 
