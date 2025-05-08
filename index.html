@@ -168,7 +168,7 @@
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));						
 						fg_exact = fg_tags.filter(t => t.trim() !== '').map(t => new RegExp(`\\b${t}\\b`));
-						const matchFineGrain = filter.some(tag => tag.test(fg_exact))
+						const matchFineGrain = filter.some(tag => fg_exact.some(fg => tag.test(fg)));
 						const match = matchComplexity || matchFineGrain;								
 						let tokenText = elements[1];
 						if (match) {
