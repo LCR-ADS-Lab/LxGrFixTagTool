@@ -230,7 +230,7 @@
 							elements[3] = new_comp;
 						} else {
 							elements.splice(3, 0, new_comp);
-							old_comp = "N/A";
+							old_comp = "No_Prior_Complexity_Tag";
 						}
 					}
 					elements.push(old_comp);
@@ -293,12 +293,23 @@
 
 	</div>
 
-	<div id="text_window" class="text_window"></div>
+	<div id="text_window" class="text_window">
+
+		Usage Outline:
+		1. Enter tags in the <b>Tag Filter</b> below (no regex or whitespace, separated by newline). Example:
+			in+advl
+			pl
+		2. Open a tagged txt file with <b>Choose File</b>
+		3. View and change tags; replaced tags will be appended to the ends of lines, along with comments
+		4. Rename the file if you'd like, and save it with <b>Download File</b>
+		
+	</div>
+
 	<div id="info_box" class="info_box">
-    Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="4" cols="50">
-	</textarea>
+    Tag Filter  <textarea id="fixtags" rows="4" cols="50"></textarea>
 
   </div>
+
 
 	<div id="bottom_bar" class="bottom_bar">
 
