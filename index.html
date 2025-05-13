@@ -24,7 +24,7 @@
 			document.getElementById(current_token).setAttribute('new_complexity', new_tag);
 		}
 
-		function setNewFinegrain() {
+		function setNewFinegrained() {
 			let new_tag = document.getElementById('field2').value + ',' + 
 				document.getElementById('field3').value + ',' + 
 				document.getElementById('field4').value + ',' + 
@@ -33,22 +33,21 @@
 				document.getElementById('field7').value + ',' + 
 				document.getElementById('field8').value + ',' + 
 				document.getElementById('field9').value;
-			console.log("new_tag: ", new_tag)
-			document.getElementById(current_token).setAttribute('new_finegrain', new_tag);
+			document.getElementById(current_token).setAttribute('new_fine-grained', new_tag);
 		}
 
 		function getNewTags(e){
 			new_complexity_tags = e.getAttribute('new_complexity');
-			new_finegrain_tags = e.getAttribute("new_finegrain").split(',')
+			new_finegrained_tags = e.getAttribute("new_fine-grained").split(',')
 			document.getElementById('field1').value = new_complexity_tags;
-			document.getElementById('field2').value = new_finegrain_tags[0];
-			document.getElementById('field3').value = new_finegrain_tags[1];
-			document.getElementById('field4').value = new_finegrain_tags[2];
-			document.getElementById('field5').value = new_finegrain_tags[3];
-			document.getElementById('field6').value = new_finegrain_tags[4];
-			document.getElementById('field7').value = new_finegrain_tags[5];
-			document.getElementById('field8').value = new_finegrain_tags[6];
-			document.getElementById('field9').value = new_finegrain_tags[7];
+			document.getElementById('field2').value = new_finegrained_tags[0];
+			document.getElementById('field3').value = new_finegrained_tags[1];
+			document.getElementById('field4').value = new_finegrained_tags[2];
+			document.getElementById('field5').value = new_finegrained_tags[3];
+			document.getElementById('field6').value = new_finegrained_tags[4];
+			document.getElementById('field7').value = new_finegrained_tags[5];
+			document.getElementById('field8').value = new_finegrained_tags[6];
+			document.getElementById('field9').value = new_finegrained_tags[7];
 		}
 
 		function next() {
@@ -84,17 +83,17 @@
 			this_text += ' Tags for the token <b>' + token + '</b> ';
 			this_text += '<br>';
 			let complexity_tag = e.getAttribute("complexity")
-			let finegrain_tags = e.getAttribute("finegrain").split(',')
+			let finegrained_tags = e.getAttribute("fine-grained").split(',')
 			this_text += '<table>';
-			this_text += '<tr><td><form>Complexity: </td><td>' + complexity_tag + '</td><td><input type="text" id="field1" onchange="setNewComplexity();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 1: </td><td>' + finegrain_tags[0] + '</td><td><input type="text" id="field2" onchange="setNewFinegrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 2: </td><td>' + finegrain_tags[1] + '</td><td><input type="text" id="field3" onchange="setNewFinegrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 3: </td><td>' + finegrain_tags[2] + '</td><td><input type="text" id="field4" onchange="setNewFinegrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 4: </td><td>' + finegrain_tags[3] + '</td><td><input type="text" id="field5" onchange="setNewFinegrain();"></td></tr>';
-			this_text += '<tr><td>Finegrain Cat. 5: </td><td>' + finegrain_tags[4] + '</td><td><input type="text" id="field6" onchange="setNewFinegrain();"></td></tr>'
-			this_text += '<tr><td>Finegrain Cat. 6: </td><td>' + finegrain_tags[5] + '</td><td><input type="text" id="field7" onchange="setNewFinegrain();"></td></tr>'
-			this_text += '<tr><td>Finegrain Cat. 7: </td><td>' + finegrain_tags[6] + '</td><td><input type="text" id="field8" onchange="setNewFinegrain();"></td></tr>'
-			this_text += '<tr><td>Finegrain Cat. 8: </td><td>' + finegrain_tags[7] + '</td><td><input type="text" id="field9" onchange="setNewFinegrain();"></td></tr>'
+			this_text += '<tr><td><form>Complexity Tag: </td><td>' + complexity_tag + '</td><td><input type="text" id="field1" onchange="setNewComplexity();"></td></tr>';
+			this_text += '<tr><td>Fine-grained Tag Cat. 1: </td><td>' + finegrained_tags[0] + '</td><td><input type="text" id="field2" onchange="setNewFinegrained();"></td></tr>';
+			this_text += '<tr><td>Fine-grained Tag Cat. 2: </td><td>' + finegrained_tags[1] + '</td><td><input type="text" id="field3" onchange="setNewFinegrained();"></td></tr>';
+			this_text += '<tr><td>Fine-grained Tag Cat. 3: </td><td>' + finegrained_tags[2] + '</td><td><input type="text" id="field4" onchange="setNewFinegrained();"></td></tr>';
+			this_text += '<tr><td>Fine-grained Tag Cat. 4: </td><td>' + finegrained_tags[3] + '</td><td><input type="text" id="field5" onchange="setNewFinegrained();"></td></tr>';
+			this_text += '<tr><td>Fine-grained Tag Cat. 5: </td><td>' + finegrained_tags[4] + '</td><td><input type="text" id="field6" onchange="setNewFinegrained();"></td></tr>'
+			this_text += '<tr><td>Fine-grained Tag Cat. 6: </td><td>' + finegrained_tags[5] + '</td><td><input type="text" id="field7" onchange="setNewFinegrained();"></td></tr>'
+			this_text += '<tr><td>Fine-grained Tag Cat. 7: </td><td>' + finegrained_tags[6] + '</td><td><input type="text" id="field8" onchange="setNewFinegrained();"></td></tr>'
+			this_text += '<tr><td>Fine-grained Tag Cat. 8: </td><td>' + finegrained_tags[7] + '</td><td><input type="text" id="field9" onchange="setNewFinegrained();"></td></tr>'
 			this_text += '</table>';
 			this_text += '<hr>Comments:<br><textarea rows="4" cols="30" name="comments" onchange="includeComments(this);">' + e.getAttribute("data-comments")  + '</textarea>';
 			document.getElementById('info_box').innerHTML = this_text;
@@ -168,18 +167,18 @@
 						//const matchFineGrain = fg_tags.some(tag => fg_filter.every(re => re.test(tag)));	
 						const matchComplexity = complexity_tag && filter.some(re => re.test(complexity_tag));	
 						fg_exact = fg_tags.map(ConvertToRegex)
-						const matchFineGrain = fg_exact.some(fg =>
+						const matchFineGrained = fg_exact.some(fg =>
 							filter.some(f => f.source === fg.source && f.flags === fg.flags)
 						);
-						const match = matchComplexity || matchFineGrain;								
+						const match = matchComplexity || matchFineGrained;								
 						let tokenText = elements[1];
 						if (match) {
 							filtered_tokens.push(token_nbr);
-							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
+							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" fine-grained="' + fg_tags.join(',') + '" new_fine-grained="' + fg_tags.join(',') + '" target_tag="1" class="conc_highlight" data-comments="" onclick="openTag(this);return false;">' + tokenText + "</a> ";
 							token_nbr += 1;
 							content_index++;
 						} else { 
-							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" finegrain="' + fg_tags.join(',') + '" new_finegrain="' + fg_tags.join(',') + '" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
+							text = text + '<a href="#" id="' + token_nbr + '" content_id="' + content_index + '" complexity="' + complexity_tag + '" new_complexity="' + complexity_tag + '" fine-grained="' + fg_tags.join(',') + '" new_fine-grained="' + fg_tags.join(',') + '" target_tag="0" class="not_highlight" data-comments="" onclick="return false;">' + tokenText + "</a> ";
 							token_nbr += 1;
 							content_index++;
 						}
@@ -217,8 +216,8 @@
 
 				let old_comp = token.getAttribute('complexity');
 				let new_comp = token.getAttribute('new_complexity');
-				let old_fg = token.getAttribute('finegrain');
-				let new_fg = token.getAttribute('new_finegrain');
+				let old_fg = token.getAttribute('fine-grained');
+				let new_fg = token.getAttribute('new_fine-grained');
 
 				let replaced_comp = new_comp !== "" && old_comp !== new_comp;
 				let replaced_fg = new_fg !== "" && old_fg !== new_fg;
@@ -239,6 +238,10 @@
 
 				if (replaced_fg) {
 					elements.splice(4, 8, ...new_fg.split(","));
+					new_fg_list = new_fg.split(",");
+					old_fg_list = old_fg.split(",");
+					replaced_fgs = old_fg_list.filter(element => !new_fg_list.includes(element));
+					replaced_fgs.forEach(el => {elements.push(el);});
 				}
 
 				if (token.getAttribute("data-comments")) {
@@ -292,8 +295,7 @@
 
 	<div id="text_window" class="text_window"></div>
 	<div id="info_box" class="info_box">
-    Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="4" cols="50">in+advl
-pl
+    Tag Filter (no regex, separate by newline):   <textarea id="fixtags" rows="4" cols="50">
 	</textarea>
 
   </div>
