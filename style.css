@@ -1,5 +1,6 @@
 body {
     background-color: #F0F0F0;
+	font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 
@@ -146,3 +147,24 @@ div.info_box {
     font-size: 12px;
 }
 
+.inline-pre {
+	display: block;
+	margin: 0.5em 0;
+	padding: 0.5em;
+	background: #f5f5f5;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	font-family: monospace;
+  }
+
+.guidelines {
+	margin: 1em 0;
+	padding: 1em;
+	background: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+  }
+  
+.guidelines ul {
+	list-style: disc inside;
+  }

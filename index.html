@@ -294,26 +294,37 @@
 	</div>
 
 
-	<div id="text_window" class="text_window">
-		<h3>Usage Outline:</h3>
-		<ol>
-			<li>Enter tags in the <b>Tag Filter</b> (no regex or whitespace, separated by newline). Example:
-			<pre>in+advl
-pl</pre>
+    <div id="text_window" class="text_window">
+		<div class="guidelines">
+		  <h4>Quick Start:</h4>
+		  <ul>
+			<li>
+			  Type one tag per line in the <strong>Tag Filter</strong> box. Example:
+			  <code class="inline-pre">in+advl<br>pl</code>
 			</li>
-			<li>Open a tagged txt file with <b>Choose File</b></li>
-			<li>View and change tags; replaced tags will be appended to the ends of lines, along with comments</li>
-			<li>Rename the file if you'd like, and save it with <b>Download File</b></li>
-		</ol>
-	</div>
-	<div id="info_box" class="info_box">
-	<label for="fixtags">Tag Filter:</label><br>
-    <textarea id="fixtags" rows="4" cols="50"></textarea>
+			<li>Click <strong>Open File: Choose File</strong> to load your text.</li>
+			<ul>
+				<li>Use a tagged file from the LxGrTgr’s Step 1.</li>
+			</ul>
+			<li>Matching tokens will highlight automatically.</li>
+			<li>Click a token to edit tags or add comments.</li>
+			<ul>
+				<li>Click &lt;&lt; previous token or next token &gt;&gt; to jump between matching tokens.</li>
+				<li>Use the navigation arrows (&uarr;/&darr;) to scroll the text pane in 50 px increments.</li>
+			  </ul>	
+			<li>Enter an output filename and click <strong>Download File</strong>.</li>
 
-  </div>
+			<li>Click the <strong>Clear Tool</strong> button in the top bar to reset and clear all loaded data.</li>
+		  </ul>
+		</div>
+	  </div>
 
-
-	<div id="bottom_bar" class="bottom_bar">
+	  <div id="info_box" class="info_box">
+		<label for="fixtags"><strong>Tag Filter:</strong></label><br>
+		<textarea id="fixtags" rows="4" cols="50" placeholder="(put one tag per line)"></textarea>
+	  </div>
+  
+	  <div id="bottom_bar" class="bottom_bar">
 
 		<form><a href="#" class="button" onclick="exportData();return false;">Download File</a> File name: <input type="text" id="filename" size="50">
 
